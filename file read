@@ -1,8 +1,10 @@
 #Cleaning and reading the csv file 
-#For this the codes are :
+
 getwd()
 setwd("E:/all files for r studio")
+
 getwd()
+
 # Read the CSV file
 df <- read.csv("United Airlines Aircraft Operating Statistics- Cost Per Block Hour (Unadjusted).csv", header = TRUE)
 
@@ -16,4 +18,5 @@ df <- data.frame(lapply(df, function(x) {
 
 # Save the cleaned data to a new CSV file
 write.csv(df, "Cleaned_United_Airlines_Aircraft_Operating_Statistics.csv", row.names = FALSE)
+
 cleaned_df <- read.csv("Cleaned_United_Airlines_Aircraft_Operating_Statistics.csv", header = TRUE)
