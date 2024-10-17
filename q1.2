@@ -1,0 +1,142 @@
+##For small narrow bodies:
+# Original Salaries and Wages data
+salaries_wages <- c(388, 410, 444, 439, 437, 484, 553, 568, 371, 327, 292, 293, 296, 325, 354, 358, 367, 414, 528, 615, 649)
+
+# Compute statistical measures
+mean_value <- mean(salaries_wages)
+median_value <- median(salaries_wages)
+
+# Corrected Mode function
+get_mode <- function(v) {
+  uniq_vals <- unique(v)
+  tabulated_vals <- tabulate(match(v, uniq_vals))
+  max_count <- max(tabulated_vals)
+  if (max_count == 1) {
+    return("No mode, all values are unique")
+  } else {
+    return(uniq_vals[which(tabulated_vals == max_count)])
+  }
+}
+
+mode_value <- get_mode(salaries_wages)
+# Other statistical measures
+std_dev <- sd(salaries_wages)
+variance_value <- var(salaries_wages)
+quartiles <- quantile(salaries_wages)
+decile_9 <- quantile(salaries_wages, 0.9)
+percentile_10 <- quantile(salaries_wages, 0.1)
+range_value <- range(salaries_wages)
+
+# Display results as a named list
+result_list <- list(
+  Mean = mean_value,
+  Median = median_value,
+  Mode = mode_value,
+  Standard_Deviation = std_dev,
+  Variance = variance_value,
+  Quartiles = quartiles,
+  `9th_Decile` = decile_9,
+  `10th_Percentile` = percentile_10,
+  Range = range_value
+)
+# Print the result list
+print(result_list)
+
+
+
+
+##For large bodies :
+# Original Salaries and Wages data
+salaries_wages <- c(495, 517, 583, 539, 546, 585, 629,654,440, 393,350, 353, 368, 382,401, 409, 429, 413, 542, 621, 648)
+
+# Compute statistical measures
+mean_value <- mean(salaries_wages)
+median_value <- median(salaries_wages)
+
+# Corrected Mode function
+get_mode <- function(v) {
+  uniq_vals <- unique(v)
+  tabulated_vals <- tabulate(match(v, uniq_vals))
+  max_count <- max(tabulated_vals)
+  if (max_count == 1) {
+    return("No mode, all values are unique")
+  } else {
+    return(uniq_vals[which(tabulated_vals == max_count)])
+  }
+}
+mode_value <- get_mode(salaries_wages)
+# Other statistical measures
+std_dev <- sd(salaries_wages)
+variance_value <- var(salaries_wages)
+quartiles <- quantile(salaries_wages)
+decile_9 <- quantile(salaries_wages, 0.9)
+percentile_10 <- quantile(salaries_wages, 0.1)
+range_value <- range(salaries_wages)
+
+# Display results as a named list
+result_list <- list(
+  Mean = mean_value,
+  Median = median_value,
+  Mode = mode_value,
+  Standard_Deviation = std_dev,
+  Variance = variance_value,
+  Quartiles = quartiles,
+  `9th_Decile` = decile_9,
+  `10th_Percentile` = percentile_10,
+  Range = range_value
+)
+# Print the result list
+print(result_list)
+
+
+
+
+##For widebodies :
+# Original Salaries and Wages data
+salaries_wages <- c(5040,5424,5376,4948,4804,5631,5882,5885,5530,5890,7200,7747,7986,10946,7050,8452,9990,10667,10604,10567,8373)
+
+# Compute statistical measures
+mean_value <- mean(salaries_wages)
+median_value <- median(salaries_wages)
+
+# Corrected Mode function
+get_mode <- function(v) {
+  uniq_vals <- unique(v)
+  tabulated_vals <- tabulate(match(v, uniq_vals))
+  max_count <- max(tabulated_vals)
+  if (max_count == 1) {
+    return("No mode, all values are unique")
+  } else {
+    return(uniq_vals[which(tabulated_vals == max_count)])
+  }
+}
+mode_value <- get_mode(salaries_wages)
+# Other statistical measures
+std_dev <- sd(salaries_wages)
+variance_value <- var(salaries_wages)
+quartiles <- quantile(salaries_wages)
+decile_9 <- quantile(salaries_wages, 0.9)
+percentile_10 <- quantile(salaries_wages, 0.1)
+range_value <- range(salaries_wages)
+
+# Display results as a named list
+result_list <- list(
+  Mean = mean_value,
+  Median = median_value,
+  Mode = mode_value,
+  Standard_Deviation = std_dev,
+  Variance = variance_value,
+  Quartiles = quartiles,
+  `9th_Decile` = decile_9,
+  `10th_Percentile` = percentile_10,
+  Range = range_value
+)
+# Print the result list
+print(result_list)
+
+
+
+
+
+
+
