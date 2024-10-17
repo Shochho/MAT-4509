@@ -1,0 +1,50 @@
+# Load required libraries
+library(readr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Read the CSV data
+data <- read_csv("Cleaned_United_Airlines_Aircraft_Operating_Statistics.csv", skip = 2)
+
+# Extract relevant data and sample 11 years
+set.seed(123) # for reproducibility
+sample_years <- sample(1995:2015, 11)
+
+  maintenance_data <- data %>%
+  filter(row_number() == 15) %>%
+  select(-1, -2) %>%
+  gather(key = "Year", value = "Maintenance") %>%
+  mutate(Year = as.integer(Year), Maintenance = as.numeric(Maintenance)) %>%
+  filter(Year %in% sample_years)
+
+load_factor_data <- data %>%
+filter(row_number() == 79) %>%
+select(-1, -2) %>%
+gather(key = "Year", value = "Load_Factor") %>%
+mutate(Year = as.integer(Year), Load_Factor = as.numeric(sub("%", "", Load_Factor)) / 100) %>%
+ilter(Year %in% sample_years)
+
+# Create pie chart for Maintenance
+pie_chart <- ggplot(maintenance_data, aes(x = "", y = Maintenance, fill = factor(Year))) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start = 0) +
+  labs(title = "Maintenance Costs Over 11 Sampled Years", fill = "Year") +
+  theme_minimal() +
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        panel.border = element_blank(),
+        panel.grid = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text.x = element_blank())
+
+# Create bar diagram for Load Factor
+bar_diagram <- ggplot(load_factor_data, aes(x = factor(Year), y = Load_Factor)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Load Factor Over 11 Sampled Years", x = "Year", y = "Load Factor") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Display the plots
+print(pie_chart)
+print(bar_diagram)
