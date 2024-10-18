@@ -1,52 +1,66 @@
 ### Creating  Pie chart and a Bar diagram for the variables “Maintenance” and “Load factor"
 
 # Load required libraries
-library(readr)
+library(ggplot2)
+library(reshape2)
+library(gridExtra)
 library(dplyr)
 library(tidyr)
-library(ggplot2)
 
-# Read the CSV data
-data <- read_csv("Cleaned_United_Airlines_Aircraft_Operating_Statistics.csv", skip = 2)
+set.seed(123)  # Set seed for reproducibility
 
-# Extract relevant data and sample 11 years
-set.seed(123) # for reproducibility
-sample_years <- sample(1995:2015, 11)
+# Create data frames for each aircraft type
+# Small Narrow Body
+small_narrow_data <- data.frame(
+  Year = 1995:2015,
+  Maintenance = c(552, 588, 696, 737, 788, 757, 808, 710, 594, 553, 614, 721, 833, 750, 712, 913, 1103, 961, 993, 1076, 774),
+  Load_Factor = c(0.676, 0.696, 0.696, 0.701, 0.683, 0.696, 0.694, 0.712, 0.754, 0.777, 0.808, 0.818, 0.826, 0.822, 0.818, 0.830, 0.845, 0.831, 0.844, 0.854, 0.855),
+  Type = "Small Narrow Body"
+)
 
-  maintenance_data <- data %>%
-  filter(row_number() == 15) %>%
-  select(-1, -2) %>%
-  gather(key = "Year", value = "Maintenance") %>%
-  mutate(Year = as.integer(Year), Maintenance = as.numeric(Maintenance)) %>%
-  filter(Year %in% sample_years)
+# Large Narrow Body
+large_narrow_data <- data.frame(
+  Year = 1995:2015,
+  Maintenance = c(532, 652, 775, 711, 739, 734, 1032, 1117, 1148, 1155, 939, 834, 1108, 1262, 1334, 1323, 1578, 867, 842, 770, 815),
+  Load_Factor = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+  Type = "Large Narrow Body"
+)
 
-load_factor_data <- data %>%
-filter(row_number() == 79) %>%
-select(-1, -2) %>%
-gather(key = "Year", value = "Load_Factor") %>%
-mutate(Year = as.integer(Year), Load_Factor = as.numeric(sub("%", "", Load_Factor)) / 100) %>%
-ilter(Year %in% sample_years)
+# Wide Body
+wide_body_data <- data.frame(
+  Year = 1995:2015,
+  Maintenance = c(1196, 1176, 1225, 1159, 1116, 1225, 1206, 1203, 1112, 1038, 1281, 1410, 1386, 1371, 1395, 1331, 1538, 1421, 1391, 1426, 1446),
+  Load_Factor = c(0.732, 0.741, 0.740, 0.726, 0.728, 0.740, 0.717, 0.758, 0.773, 0.811, 0.820, 0.829, 0.829, 0.798, 0.809, 0.839, 0.819, 0.816, 0.822, 0.813, 0.805),
+  Type = "Wide Body"
+)
 
-# Create pie chart for Maintenance
-pie_chart <- ggplot(maintenance_data, aes(x = "", y = Maintenance, fill = factor(Year))) +
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start = 0) +
-  labs(title = "Maintenance Costs Over 11 Sampled Years", fill = "Year") +
-  theme_minimal() +
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        panel.border = element_blank(),
-        panel.grid = element_blank(),
-        axis.ticks = element_blank(),
-        axis.text.x = element_blank())
+# Randomly sample 11 years
+sampled_years <- sample(1995:2015, 11)
 
-# Create bar diagram for Load Factor
-bar_diagram <- ggplot(load_factor_data, aes(x = factor(Year), y = Load_Factor)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  labs(title = "Load Factor Over 11 Sampled Years", x = "Year", y = "Load Factor") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+# Filter all datasets using the same sampled years
+small_narrow_sample <- small_narrow_data[small_narrow_data$Year %in% sampled_years, ]
+large_narrow_sample <- large_narrow_data[large_narrow_data$Year %in% sampled_years, ]
+wide_body_sample <- wide_body_data[wide_body_data$Year %in% sampled_years, ]
 
-# Display the plots
-print(pie_chart)
-print(bar_diagram)
+# Combine all samples into one data frame
+combined_data <- rbind(
+  small_narrow_sample,
+  large_narrow_sample,
+  wide_body_sample
+)
+
+# Simple pie chart for Maintenance
+p1 <- ggplot(combined_data, aes(x = "", y = Maintenance, fill = Type)) +
+  geom_col() +
+  coord_polar("y") +
+  facet_wrap(~Year) +
+  ggtitle("Maintenance Costs")
+
+# Simple bar chart for Load Factor
+p2 <- ggplot(combined_data, aes(x = Year, y = Load_Factor, fill = Type)) +
+  geom_col(position = "dodge") +
+  ggtitle("Load Factor")
+
+# Show both plots
+grid.arrange(p1, p2, nrow = 2)
+
