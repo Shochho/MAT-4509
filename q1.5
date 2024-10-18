@@ -1,111 +1,65 @@
 ### Developing a Box plot for the variables “Purchased Goods”, “Aircraft Ownerships” and “Daily Utilization per Aircraft”. 
 
-
-##For small narrow bodies :
 # Load required libraries
 library(ggplot2)
 library(reshape2)
+library(gridExtra)  # For arranging multiple plots
 
 set.seed(123)  # Set seed for reproducibility
-# Create full data frame
-full_data <- data.frame(
+
+# Create data frames for each aircraft type
+small_narrow_data <- data.frame(
   Year = 1995:2015,
   Purchased_Goods = c(563,693,665,572,544,769,796,652,770,981,1384,1633,1681,2726,1357,1858,2335,2583,2410,2297,1538),
-  Aircraft_Ownership = c(445, 411, 387, 396, 408, 444, 485, 512, 399, 358, 315, 366, 391, 414, 435, 379, 229, 295, 280, 293, 291),
-  Daily_Utilization = c(9.28, 9.40, 9.59, 9.78, 9.95, 9.85, 9.22, 8.96, 9.00, 9.81, 10.36, 10.57, 10.65, 9.96, 10.23, 10.46, 10.39, 10.01, 10.07, 9.65, 9.18)
+  Aircraft_Ownership = c(445,411,387,396,408,444,485,512,399,358,315,366,391,414,435,379,229,295,280,293,291),
+  Daily_Utilization = c(9.28,9.40,9.59,9.78,9.95,9.85,9.22,8.96,9.00,9.81,10.36,10.57,10.65,9.96,10.23,10.46,10.39,10.01,10.07,9.65,9.18),
+  Type = "Small Narrow Body"
 )
-# Randomly sample 11 years
-sampled_years <- sample(full_data$Year, 11)
-# Filter data for sampled years
-data <- full_data[full_data$Year %in% sampled_years, ]
-# Reshape data for ggplot
-data_long <- melt(data, id.vars = "Year")
-# Create box plot
-ggplot(data_long, aes(x = variable, y = value)) +
-  geom_boxplot() +
-  scale_x_discrete(labels = c("Purchased\nGoods", "Aircraft\nOwnership", "Daily\nUtilization")) +
-  labs(title = "Box Plot of United Airlines Variables (n=11 sample)",
-       subtitle = paste("Sampled years:", paste(sort(sampled_years), collapse = ", ")),
-       x = "Variable",
-       y = "Value") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 0, hjust = 0.5),
-        plot.subtitle = element_text(size = 8))
 
-
-
-
-
-##For large narrow bodies:
-# Load required libraries
-library(ggplot2)
-library(reshape2)
-
-
-set.seed(123)  # Set seed for reproducibility
-# Create full data frame
-full_data <- data.frame(
+large_narrow_data <- data.frame(
   Year = 1995:2015,
-  Purchased_Goods = c(644, 784, 756, 650, 631, 864, 961, 873, 1021, 1354, 1897, 2200, 2236, 3644, 1844, 2478, 3124, 3166, 2951, 2775, 1836),
-  Aircraft_Ownership = c(821, 769, 737, 661, 575, 581, 769, 734, 590, 465, 403, 385, 418, 467, 516, 492, 424, 329, 295, 274, 217),
-  Daily_Utilization = c(11, 11, 11, 11, 11, 11, 10, 10, 9, 10, 11, 11, 11, 10, 10, 10, 10, 10, 10, 10, 10)
+  Purchased_Goods = c(644,784,756,650,631,864,961,873,1021,1354,1897,2200,2236,3644,1844,2478,3124,3166,2951,2775,1836),
+  Aircraft_Ownership = c(821,769,737,661,575,581,769,734,590,465,403,385,418,467,516,492,424,329,295,274,217),
+  Daily_Utilization = c(11,11,11,11,11,11,10,10,9,10,11,11,11,10,10,10,10,10,10,10,10),
+  Type = "Large Narrow Body"
 )
-# Randomly sample 11 years
-sampled_years <- sample(full_data$Year, 11)
-# Filter data for sampled years
-data <- full_data[full_data$Year %in% sampled_years, ]
-# Reshape data for ggplot
-data_long <- melt(data, id.vars = "Year")
-# Create box plot
-ggplot(data_long, aes(x = variable, y = value)) +
-  geom_boxplot() +
-  scale_x_discrete(labels = c("Purchased\nGoods", "Aircraft\nOwnership", "Daily\nUtilization")) +
-  labs(title = "Box Plot of United Airlines Variables (n=11 sample)",
-       subtitle = paste("Sampled years:", paste(sort(sampled_years), collapse = ", ")),
-       x = "Variable",
-       y = "Value") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 0, hjust = 0.5),
-  plot.subtitle = element_text(size = 8))
 
-
-
-
-
-
-
-
-
-##For wide bodies:
-# Load required libraries
-library(ggplot2)
-library(reshape2)
-
-
-set.seed(123)  # Set seed for reproducibility
-# Create full data frame
-full_data <- data.frame(
+wide_body_data <- data.frame(
   Year = 1995:2015,
-  Purchased_Goods = c(1513, 1788, 1683, 1356, 1309, 1815, 1935, 1701, 1927, 2660, 3953, 4634, 4884, 7761, 3762, 5188, 6521, 7017, 6737, 6406, 4216),
-  Aircraft_Ownership = c(1340, 1344, 1215, 1140, 1121, 1235, 1232, 1225, 1266, 1165, 1029, 815, 793, 787, 837, 750, 313, 369, 386, 348, 312),
-  Daily_Utilization = c(11.54, 11.38, 11.48, 11.69, 11.94, 11.86, 11.56, 10.53, 9.59, 11.61, 12.07, 12.14, 12.41, 12.45, 12.09, 12.28, 12.10, 12.25, 11.65, 11.68, 11.62)
+  Purchased_Goods = c(1513,1788,1683,1356,1309,1815,1935,1701,1927,2660,3953,4634,4884,7761,3762,5188,6521,7017,6737,6406,4216),
+  Aircraft_Ownership = c(1340,1344,1215,1140,1121,1235,1232,1225,1266,1165,1029,815,793,787,837,750,313,369,386,348,312),
+  Daily_Utilization = c(11.54,11.38,11.48,11.69,11.94,11.86,11.56,10.53,9.59,11.61,12.07,12.14,12.41,12.45,12.09,12.28,12.10,12.25,11.65,11.68,11.62),
+  Type = "Wide Body"
 )
-# Randomly sample 11 years
-sampled_years <- sample(full_data$Year, 11)
-# Filter data for sampled years
-data <- full_data[full_data$Year %in% sampled_years, ]
+
+# Randomly sample 11 years (using same seed for consistency)
+sampled_years <- sample(1995:2015, 11)
+
+# Filter all datasets using the same sampled years
+small_narrow_sample <- small_narrow_data[small_narrow_data$Year %in% sampled_years, ]
+large_narrow_sample <- large_narrow_data[large_narrow_data$Year %in% sampled_years, ]
+wide_body_sample <- wide_body_data[wide_body_data$Year %in% sampled_years, ]
+
+# Combine all samples into one data frame
+combined_data <- rbind(
+  small_narrow_sample,
+  large_narrow_sample,
+  wide_body_sample
+)
+
 # Reshape data for ggplot
-data_long <- melt(data, id.vars = "Year")
-# Create box plot
-ggplot(data_long, aes(x = variable, y = value)) +
-  geom_boxplot() +
+data_long <- melt(combined_data, id.vars = c("Year", "Type"))
+
+# Create combined box plot
+ggplot(data_long, aes(x = variable, y = value, fill = Type)) +
+  geom_boxplot(position = position_dodge(width = 0.8)) +
   scale_x_discrete(labels = c("Purchased\nGoods", "Aircraft\nOwnership", "Daily\nUtilization")) +
-  labs(title = "Box Plot of United Airlines Variables (n=11 sample)",
+  labs(title = "United Airlines Variables by Aircraft Type (n=11 sample)",
        subtitle = paste("Sampled years:", paste(sort(sampled_years), collapse = ", ")),
        x = "Variable",
        y = "Value") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 0, hjust = 0.5),
-        plot.subtitle = element_text(size = 8))
-
-
+        plot.subtitle = element_text(size = 8),
+        legend.position = "bottom") +
+  scale_fill_brewer(palette = "Set2")  # Use a colorblind-friendly palette
