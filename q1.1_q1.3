@@ -1,81 +1,61 @@
 ###organize the “Salaries and Wages” into a frequency distribution and creating histograms 
 
-##for small narrowbodies 
 # Load necessary library
 library(dplyr)
 
+##for small narrowbodies 
 # Sample of size n=11 from Salaries and Wages data
 salaries_wages <- c(388, 410, 444, 439, 437, 484, 553, 568, 371, 327, 292, 293, 296, 325, 354, 358, 367, 414, 528, 615, 649)
-
 # Set the sample size
 set.seed(123) # To ensure reproducibility
 sample_size <- 11
 sample_data <- sample(salaries_wages, sample_size)
-
 # Determine appropriate class intervals using Sturges' formula
 num_classes <- ceiling(log2(sample_size) + 1)
-
 # Create frequency distribution
 breaks <- seq(min(sample_data), max(sample_data), length.out = num_classes + 1)
 frequency_distribution <- cut(sample_data, breaks = breaks, include.lowest = TRUE, right = FALSE)
 frequency_table <- table(frequency_distribution)
-
 # Display the frequency distribution
 print(frequency_table)
-
-hist(sample_data, breaks = breaks, main = "Frequency Distribution of Salaries and Wages",
-xlab = "Salaries and Wages", ylab = "Frequency", col = "Pink", border = "Black")
-
-
-
+hist(sample_data, breaks = breaks, main = "Frequency Distribution of Salaries and Wages (Small Narrowbodies)",
+     xlab = "Salaries and Wages", ylab = "Frequency", col = "Pink", border = "Black")
 
 ##For large narrow bodies 
-#large narrow bodies 
 # Sample of size n=11 from Salaries and Wages data
-salaries_wages <- c(495, 517, 583, 539, 546, 585, 629,654,440, 393,350, 353, 368, 382,401, 409, 429, 413, 542, 621, 648)
-
+salaries_wages <- c(495, 517, 583, 539, 546, 585, 629, 654, 440, 393, 350, 353, 368, 382, 401, 409, 429, 413, 542, 621, 648)
 # Set the sample size
 set.seed(123) # To ensure reproducibility
 sample_size <- 11
 sample_data <- sample(salaries_wages, sample_size)
-
 # Determine appropriate class intervals using Sturges' formula
 num_classes <- ceiling(log2(sample_size) + 1)
-
 # Create frequency distribution
 breaks <- seq(min(sample_data), max(sample_data), length.out = num_classes + 1)
 frequency_distribution <- cut(sample_data, breaks = breaks, include.lowest = TRUE, right = FALSE)
 frequency_table <- table(frequency_distribution)
-
 # Display the frequency distribution
 print(frequency_table)
-hist(sample_data, breaks = breaks, main = "Frequency Distribution of Salaries and Wages",
- xlab = "Salaries and Wages", ylab = "Frequency", col = "Pink", border = "Black")
+hist(sample_data, breaks = breaks, main = "Frequency Distribution of Salaries and Wages (Large Narrowbodies)",
+     xlab = "Salaries and Wages", ylab = "Frequency", col = "Pink", border = "Black")
 
-
-
-
-##Wide bodies :
-#wide bodies 
+##Wide bodies
 # Sample of size n=11 from Salaries and Wages data
-salaries_wages <- c(5040,5424,5376,4948,4804,5631,5882,5885,5530,5890,7200,7747,7986,10946,7050,8452,9990,10667,10604,10567,8373)
+salaries_wages <- c(5040, 5424, 5376, 4948, 4804, 5631, 5882, 5885, 5530, 5890, 7200, 7747, 7986, 10946, 7050, 8452, 9990, 10667, 10604, 10567, 8373)
 # Set the sample size
 set.seed(123) # To ensure reproducibility
 sample_size <- 11
 sample_data <- sample(salaries_wages, sample_size)
-
 # Determine appropriate class intervals using Sturges' formula
 num_classes <- ceiling(log2(sample_size) + 1)
-
 # Create frequency distribution
 breaks <- seq(min(sample_data), max(sample_data), length.out = num_classes + 1)
 frequency_distribution <- cut(sample_data, breaks = breaks, include.lowest = TRUE, right = FALSE)
 frequency_table <- table(frequency_distribution)
-
 # Display the frequency distribution
 print(frequency_table)
-hist(sample_data, breaks = breaks, main = "Frequency Distribution of Salaries and Wages",
-xlab = "Salaries and Wages", ylab = "Frequency", col = "Pink", border = "Black")
+hist(sample_data, breaks = breaks, main = "Frequency Distribution of Salaries and Wages (Widebodies)",
+     xlab = "Salaries and Wages", ylab = "Frequency", col = "Pink", border = "Black")
 
 
 
