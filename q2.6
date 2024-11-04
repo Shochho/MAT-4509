@@ -1,0 +1,30 @@
+# Create the dataset using the Total Fleet statistics
+data <- data.frame(
+  Year = 1995:2015,
+  Salaries = c(510, 553, 623, 616, 606, 650, 720, 758, 487, 430, 386, 386, 397, 435, 465, 473, 493, 521, 633, 738, 767),
+  PilotTraining = c(29, 23, 26, 23, 26, 26, 32, 31, 19, 13, 12, 9, 11, 11, 15, 10, 11, 7, 11, 22, 35),
+  Benefits = c(91, 103, 95, 128, 124, 157, 273, 342, 288, 220, 162, 155, 153, 181, 218, 203, 141, 194, 220, 237, 242),
+  PerDiem = c(42, 46, 48, 50, 54, 56, 61, 55, 45, 43, 43, 46, 51, 55, 55, 55, 52, 52, 64, 102, 57),
+  Maintenance = c(730, 762, 860, 857, 875, 890, 961, 936, 837, 799, 868, 936, 1050, 1047, 1088, 1161, 1369, 1034, 1018, 1014, 972),
+  AircraftOwnership = c(760, 732, 684, 663, 645, 698, 750, 772, 678, 602, 533, 495, 512, 538, 587, 536, 305, 329, 314, 298, 259),
+  BlockHours = c(10.04, 10.13, 10.32, 10.55, 10.68, 10.53, 9.95, 9.58, 9.18, 10.31, 10.86, 11.15, 11.17, 10.72, 10.79, 11.01, 10.71, 10.65, 10.46, 10.42, 10.39)
+)
+
+# Perform multiple linear regression
+model <- lm(Salaries ~ PilotTraining + Benefits + PerDiem + Maintenance +
+              AircraftOwnership + BlockHours, data = data)
+
+# Summary of the model to display coefficients, t-values, and p-values
+summary_results <- summary(model)
+print(summary_results)
+
+# Extract the p-values of each independent variable
+p_values <- summary_results$coefficients[, "Pr(>|t|)"]
+
+# Identify variables with p-values greater than 0.05 for potential deletion
+cat("Independent variables with p-values > 0.05 (consider for deletion):\n")
+for (i in 2:length(p_values)) {  # Skipping the intercept (index 1)
+  if (p_values[i] > 0.05) {
+    cat(names(p_values)[i], "- p-value:", p_values[i], "\n")
+  }
+}
